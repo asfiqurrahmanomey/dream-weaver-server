@@ -1,3 +1,4 @@
+
 const express = require('express')
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
@@ -21,11 +22,19 @@ async function run() {
         const serviceCollection = client.db('dreamWeaver').collection('services');
         const reviewCollection = client.db('dreamWeaver').collection('reviews');
 
-        // JWT Authorization
         app.post('/jwt', (req, res) => {
             const user = req.body;
-            console.log(user);
+            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5' })
+            res.send({ token });
         })
+
+
+        // Add Service new data 
+        app.post('/services', async (req, res) => {
+            const service = req.body;
+            const result = await serviceCollection.insertOne(service);
+            res.send(result);
+        });
 
         // To get 3 Services 
         app.get('/services', async (req, res) => {
