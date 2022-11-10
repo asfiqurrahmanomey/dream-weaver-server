@@ -72,6 +72,14 @@ async function run() {
             res.send(result);
         });
 
+        // Top Get All Review
+        app.get('/reviews', async (req, res) => {
+            const query = {}
+            const cursor = reviewCollection.find(query);
+            const services = await cursor.toArray();
+            res.send(services);
+        });
+        
     }
     finally {
 
