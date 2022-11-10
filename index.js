@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 
@@ -19,6 +20,12 @@ async function run() {
     try {
         const serviceCollection = client.db('dreamWeaver').collection('services');
         const reviewCollection = client.db('dreamWeaver').collection('reviews');
+
+        // JWT Authorization
+        app.post('/jwt', (req, res) => {
+            const user = req.body;
+            console.log(user);
+        })
 
         // To get 3 Services 
         app.get('/services', async (req, res) => {
@@ -79,7 +86,7 @@ async function run() {
             const services = await cursor.toArray();
             res.send(services);
         });
-        
+
     }
     finally {
 
