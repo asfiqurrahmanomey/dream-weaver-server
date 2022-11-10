@@ -18,7 +18,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const serviceCollection = client.db('dreamWeaver').collection('services');
-        const reviewCollection = client.db('dreamWeaver').collection('review');
+        const reviewCollection = client.db('dreamWeaver').collection('reviews');
 
         // To get 3 Services 
         app.get('/services', async (req, res) => {
@@ -46,8 +46,8 @@ async function run() {
 
         // Reviews API
         app.post('/reviews', async (req, res) => {
-            const review = rq.body;
-            const result = await reviewCollection.insertOne(order);
+            const review = req.body;
+            const result = await reviewCollection.insertOne(review);
             res.send(result);
         });
 
